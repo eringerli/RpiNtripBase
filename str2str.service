@@ -1,0 +1,13 @@
+[Unit]
+Description=str2str
+After=network.target
+After=ntripcaster.service
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/local/bin/str2str -in tcpcli://localhost:2102 -out ntrips://:gps@localhost:2101/STALL
+
+[Install]
+
+WantedBy=multi-user.target

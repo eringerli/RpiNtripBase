@@ -1,0 +1,15 @@
+[Unit]
+Description=ntripcaster
+After=network.target
+After=baseProxy@.service
+Requires=baseProxy@.service
+
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/local/ntripcaster/bin/ntripcaster
+
+[Install]
+
+WantedBy=multi-user.target

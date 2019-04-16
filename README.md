@@ -39,6 +39,8 @@ sudo systemctl enable baseProxy@115200.service
 sudo systemctl start baseProxy@115200.service
 sudo systemctl enable ntripcaster.service
 sudo systemctl start ntripcaster.service
+sudo systemctl enable str2str
+sudo systemctl start str2str
 ```
 
 In einigen Konfigurationen ist die Baudrate anders konfiguriert, diese oben anpassen (zwei mal!).

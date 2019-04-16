@@ -12,16 +12,22 @@ Dies ist eine einfach zu konfigurierende F9P-Basis für den RPI.
 # Voraussetzungen
 
 * Der RPI ist mit Raspbian geflasht, alle Passwörter sind geändert und alle Netzwerke eingerichtet
-* Ein Zugriff mit `ssh` (oder Putty auf Windows) besteht
+* Ein Zugriff mit `ssh` (oder Putty auf Windows) besteht (Datei `ssh` auf der Bootpartition anlegen)
 * Der F9P ist als Basis konfiguriert; es sollten nur RTCM-Nachrichten ausgegeben werden.
 * Der Benutzer hat alles durchgelesen und versteht was er macht (oder macht nur das, was hier beschrieben ist...)
 
 # Installation
 
-Um das Ganze zu installieren, wird zuerst ein normales Raspbian-Image auf eine SD-Karte gebrannt und konfiguriert.
-Anleitungen dazu findet man genug auf dem Internet.
+Um das Ganze zu installieren, wird zuerst ein normales Raspbian-Image (ohne Desktop; Stretch Lite reicht) auf eine SD-Karte
+gebrannt und konfiguriert. Anleitungen dazu findet man genug auf dem Internet, 
+z.B. https://howtoraspberrypi.com/how-to-raspberry-pi-headless-setup/ oder https://www.dahlen.org/2017/10/raspberry-pi-zero-w-headless-setup/
 
-Dann wird auf dem Pi per `ssh` (oder Putty)  eingelogt und dieses Repository geklont:
+Dann wird auf dem Pi per `ssh` (oder Putty)  eingelogt und Git und Socat installiert:
+```
+sudo apt-get install git socat
+```
+
+Dieses Repository wird geklont:
 ```
 git clone https://github.com/eringerli/RpiNtripBase.git
 ```

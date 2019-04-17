@@ -58,9 +58,11 @@ verwenden. Der Port 2102 erlaubt einen direkten Zugang zum F9P, diesen **nicht**
 
 # Konfiguration
 Die Konfiguration wird in der Datei `ntripcaster.conf` hier gemacht. Standartmässig wird der
-Caster auf dem Port 2101 gestartet, der Mountpoint ist "STALL", der Benutzername "gps" und
-das Passwort ebenfalls "gps". Wenn Werte angepasst werden, muss die Datei `update.sh` neu 
-ausgeführt werden.
+Caster auf dem Port 2101 gestartet, der Mountpoint ist "STALL", der Benutzername und
+das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei 
+str2str.service ebenfalls angepasst werden.
+
+Wenn Werte geändert werden, muss die Datei `update.sh` neu  ausgeführt werden, um sie zu übernehmen.
 
 # Andere Baud-Rate vom F9P
 Es ist sehr wichtig, dass der alte Service gestoppt und ausgeschaltet wird, dies geschieht mit:

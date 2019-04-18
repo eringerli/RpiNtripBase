@@ -64,14 +64,17 @@ str2str.service ebenfalls angepasst werden.
 
 Wenn Werte geändert werden, muss die Datei `update.sh` neu  ausgeführt werden, um sie zu übernehmen.
 
-# Andere Baud-Rate vom F9P
-Es ist sehr wichtig, dass der alte Service gestoppt und ausgeschaltet wird, dies geschieht mit:
+# Andere Baud-Raten
+Wenn der F9P per USB angeschlossen wird, wird die Baudrate nicht verwendet und kann auf dem Standart belassen werden.
+Wenn ein USB-RS232-Wandler und ein anderer GPS-Empfänger verwendet wird, eventuel schon.
+
+Es ist sehr wichtig, dass der alte Service gestoppt und ausgeschaltet wird, dies geschieht mit (ALT=alte Baudrate):
 ```
 sudo systemctl stop baseProxy@ALT.service
 sudo systemctl disable baseProxy@ALT.service
 ```
 
-Um den neuen Service zu starten und aktivieren, wird folgendes eingegeben:
+Um den neuen Service zu starten und aktivieren, wird folgendes eingegeben (NEU=neue Baudrate):
 ```
 sudo systemctl start baseProxy@NEU.service
 sudo systemctl enable baseProxy@NEU.service
@@ -94,6 +97,6 @@ Um die Basis wieder per NTRIP erreichbar zu machen, muss str2str wieder gestarte
 sudo systemctl start str2str
 ```
 
-Falls die Baudrate geändert wird (zu empfehlen bei Updates der Firmware), muss wie oben beschrieben der Service `baseProxy` mit der
+Falls die Baudrate geändert wird , muss wie oben beschrieben der Service `baseProxy` mit der
 neuen Baudrate gestartet werden. Wenn es nur temporär ist, müssen die Kommandos mit `systemctl enable ...` und `systemctl disable ...`
 nicht eingegeben werden.

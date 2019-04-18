@@ -1,3 +1,6 @@
 [submodule "external/ntripcaster"]
 	path = external/ntripcaster
 	url = https://github.com/roice/ntripcaster.git
+[submodule "external/rtklib-demo5"]
+	path = external/rtklib-demo5
+	url = https://github.com/rtklibexplorer/RTKLIB.git

@@ -81,3 +81,19 @@ Falls man nicht mehr weiss, wie man es konfiguriert hat, kann mit `systemctl` al
 Lieber einmal zuviel `systemctl disable ...` eingeben, als man hat nach dem Reboot zwei baseProxy-Services gleichtzeitig
 am laufen. Diese konkurieren um die serielle Schnittstelle, was nicht funktionieren kann.
 
+# Konfiguration mit uCenter
+
+Um die Basis mit dem uCenter zu konfigurieren, wird zuerst str2str abgeschalten:
+```
+sudo systemctl stop str2str
+```
+
+Dann wird im uCenter eine neue Verbindung per TCP hergestellt, also mit `tcp://IP-BASIS:2102`. Die Basis kann nun normal konfiguriert werden.
+Um die Basis wieder per NTRIP erreichbar zu machen, muss str2str wieder gestartet werden:
+```
+sudo systemctl start str2str
+```
+
+Falls die Baudrate geändert wird (zu empfehlen bei Updates der Firmware), muss wie oben beschrieben der Service `baseProxy` mit der
+neuen Baudrate gestartet werden. Wenn es nur temporär ist, müssen die Kommandos mit `systemctl enable ...` und `systemctl disable ...`
+nicht eingegeben werden.

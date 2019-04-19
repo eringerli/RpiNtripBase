@@ -1,0 +1,6 @@
+[Unit]
+Description=Rotate and Compress ntripcaster Logs
+
+[Service]
+ExecStart=/usr/sbin/logrotate /usr/local/ntripcaster/ntripcaster.logrotate
+

@@ -1,0 +1,10 @@
+[Unit]
+Description=Hourly Log Rotation for ntripcaster
+
+[Timer]
+OnCalendar=Hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+

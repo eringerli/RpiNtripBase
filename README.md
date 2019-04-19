@@ -16,6 +16,12 @@ Dies ist eine einfach zu konfigurierende F9P-Basis für den RPI.
 * Der F9P ist als Basis konfiguriert; es sollten nur RTCM-Nachrichten ausgegeben werden.
 * **Der Benutzer hat alles durchgelesen und versteht was er macht (oder macht nur das, was hier beschrieben ist...)**
 
+# Bekannte Unzulänglichkeiten
+
+* Nur die Basis mit einem F9P implementiert;
+* Die grundsätzliche Struktur lässt alle Varianten von Empfängern zu, mangels Hardware kann ich aber nicht alle testen. Wenn jemand
+  Änderungen macht, kann er mir einen Pull Request schicken, ich nehme die Commits gerne in das Repository auf.
+
 # Installation
 
 Um das Ganze zu installieren, wird zuerst ein normales Raspbian-Image (ohne Desktop; Stretch Lite reicht) auf eine SD-Karte
@@ -57,11 +63,11 @@ im u-center kann eine Text-Anzeige geöffnet werden (View -> Text Console), dann
 
 Um die Basis erreichen zu können, muss auf dem Router eine Portweiterleitung auf den eingestellten
 Port des NTRIP-Casters und eine DynDNS-Adresse (oder ähnlich, gibt viele Anbieter) eingerichtet werden,
-sodass ein Zugriff vim Rover übers Internet möglich wird. FritzBox-Besitzer können auch eine MyFritz-Addresse
+sodass ein Zugriff vom Rover übers Internet möglich wird. FritzBox-Besitzer können auch eine MyFritz-Addresse
 verwenden. Der Port 2102 erlaubt einen direkten Zugang zum F9P, diesen **nicht** öffentlich zugänglich machen.
 
 # Konfiguration
-Die Konfiguration wird in der Datei `ntripcaster.conf` hier gemacht. Standartmässig wird der
+Die Konfiguration wird in der Datei `ntripcaster.conf` gemacht. Standartmässig wird der
 Caster auf dem Port 2101 gestartet, der Mountpoint ist "STALL", der Benutzername und
 das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei 
 str2str.service ebenfalls angepasst werden. **Achtung: das Passwort für NTRIP wird im Klartext (HTTP Basic Auth)
@@ -96,9 +102,9 @@ nichts mit den Services hier zu tun.
 
 # Andere Baud-Raten
 Wenn der F9P per USB angeschlossen wird, wird die Baudrate nicht verwendet und kann auf dem Standart belassen werden.
-Wenn ein USB-RS232-Wandler und ein anderer GPS-Empfänger verwendet wird, eventuel schon.
+Wenn ein USB-RS232-Wandler und ein anderer GPS-Empfänger verwendet wird, eventuell schon.
 
-Es ist sehr wichtig, dass der alte Service gestoppt und ausgeschaltet wird, dies geschieht mit (ALT=alte Baudrate):
+Es ist sehr wichtig, dass der alte Service gestoppt und deaktiviert wird, dies geschieht mit (ALT=alte Baudrate):
 ```
 sudo systemctl stop baseProxy@ALT.service
 sudo systemctl disable baseProxy@ALT.service
@@ -116,15 +122,15 @@ am laufen. Diese konkurieren um die serielle Schnittstelle, was nicht funktionie
 
 # Konfiguration mit uCenter
 
-Um die Basis mit dem uCenter zu konfigurieren, wird zuerst str2str abgeschalten:
+Um die Basis mit dem uCenter zu konfigurieren, wird zuerst `str2str.service` abgeschalten:
 ```
-sudo systemctl stop str2str
+sudo systemctl stop str2str.service
 ```
 
 Dann wird im uCenter eine neue Verbindung per TCP hergestellt, also mit `tcp://IP-BASIS:2102`. Die Basis kann nun normal konfiguriert werden.
-Um die Basis wieder per NTRIP erreichbar zu machen, muss str2str wieder gestartet werden:
+Um die Basis wieder per NTRIP erreichbar zu machen, muss `str2str.service` wieder gestartet werden:
 ```
-sudo systemctl start str2str
+sudo systemctl start str2str.service
 ```
 
 Falls die Baudrate geändert wird , muss wie oben beschrieben der Service `baseProxy` mit der

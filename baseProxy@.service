@@ -5,6 +5,7 @@ After=network.target
 [Service]
 Type=simple
 Restart=always
+RestartSec=10
 ExecStart=/usr/bin/socat -d -d TCP-LISTEN:2102,fork,reuseaddr FILE:/dev/ttyACM0,b%i,raw
 
 [Install]

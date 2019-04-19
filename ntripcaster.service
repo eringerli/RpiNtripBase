@@ -5,6 +5,7 @@ After=network.target
 [Service]
 Type=simple
 Restart=always
+RestartSec=10
 ExecStart=/usr/local/ntripcaster/bin/ntripcaster
 
 [Install]

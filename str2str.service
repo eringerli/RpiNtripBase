@@ -6,6 +6,7 @@ After=ntripcaster.service
 [Service]
 Type=simple
 Restart=always
+RestartSec=10
 ExecStart=/usr/local/bin/str2str -in tcpcli://localhost:2102 -out ntrips://:gps@localhost:2101/STALL
 
 [Install]

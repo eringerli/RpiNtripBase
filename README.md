@@ -39,7 +39,7 @@ sudo ./compile.sh
 sudo ./update.sh
 ```
 
-Jetzt müssen noch die entsprechenden Services gestartet und aktiviert (beim Neustart automatisch) werden:
+Jetzt müssen noch die entsprechenden Services gestartet und aktiviert werden:
 ```
 sudo systemctl enable baseProxy@115200.service
 sudo systemctl start baseProxy@115200.service

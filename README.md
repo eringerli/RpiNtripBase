@@ -18,9 +18,31 @@ Dies ist eine einfach zu konfigurierende F9P-Basis für den RPI.
 
 # Bekannte Unzulänglichkeiten
 
-* Nur die Basis mit einem F9P implementiert;
+* Nur die Basis mit einem F9P und M8T implementiert;
 * Die grundsätzliche Struktur lässt alle Varianten von Empfängern zu, mangels Hardware kann ich aber nicht alle testen. Wenn jemand
   Änderungen macht, kann er mir einen Pull Request schicken, ich nehme die Commits gerne in das Repository auf.
+
+# Mitwirkmöglichkeiten
+
+Es gibt grundsätzlich verschiedene Varianten:
+
+1. Ein Fork machen (github-Account notwendig, Anleitungen findet man im Internet), die entsprechenden Änderungen machen, 
+   das Ganze mit einer **sinnvollen** Beschreibung committen und mir ein Pullrequest schicken. Diese Variante bietet sich an, 
+   wenn man eine genaue Lösung für das Problem hat.
+1. Ein "Issue" erröfnen. Dazu muss ebenfalls ein github-Account eröffnet werden. **Sinnvoll**, und mit **genügend Informationen**
+   die gewünschten Änderungen beschreiben, am besten mit Code oder funktionierenden Beispielen. Diese Lösung bietet sich an,
+   wenn man zwar weiss, was man machen will, aber sich nicht sicher ist, wie es zu implementieren ist.
+1. Mich auf den Telegrammgruppen rund um Cerea/AgOpenGPS anschreiben, am Besten in der F9P-Gruppe
+   (https://cerea-forum.de/forum/index.php?thread/427-links-zu-messenger-gruppen/). Diese Lösung ist für diejenigen,
+   welche keine Erfahrung mit Linux, systemd und ähnlichem haben und das Problem mit der Community zusammen lösen wollen.
+
+# Anpassungen/Weiterentwicklung
+
+Die grundsätzliche Struktur soll so sein, dass dieses Projekt auf jedem Linux läuft. Zu diesem Zweck sind alle externen Projekte
+als Source Code eingebunden und werden auf der Maschine selbst compiliert. Weiter werden die einzelnen Services in eigenen Dateien
+definiert, dem System hinzugefügt, gestartet und aktiviert (damit sie beim Starten des Systems ebenfalls gestartet werden). Wenn 
+neue Empfänger hinzugefügt werden, also den entsprechenden Service kopieren und abändern. Somit kann der Benutzer selbst wählen,
+welcher Art sein Empfänger ist und welcher Service er starten will.
 
 # Installation
 
@@ -51,11 +73,13 @@ sudo systemctl enable baseProxy@115200.service
 sudo systemctl start baseProxy@115200.service
 sudo systemctl enable ntripcaster.service
 sudo systemctl start ntripcaster.service
-sudo systemctl enable str2str.service
-sudo systemctl start str2str.service
 sudo systemctl enable logrotate-ntripcaster.timer
 sudo systemctl start logrotate-ntripcaster.timer
+sudo systemctl enable str2str.service
+sudo systemctl start str2str.service
 ```
+Wenn ein M8T angeschlossen wird, muss statt `str2str.service` `str2str-M8T.service` ausgeführt werden. Weiter muss die Position der Basis in der Datei
+`str2str-M8T.service` angepasst werden.
 
 Wenn der GPS-Empfänger über eine serielle Schnittstelle angeschlossen wurde (z.B. M8T mit TTL-Serial-zu-USB-Wandler), muss die Baudrate
 korrekt konfiguriert sein (zwei mal!). Wenn er direkt über USB verbunden ist, ist es egal (z.B. F9P über USB). Hier hilft ausprobieren:
@@ -64,7 +88,7 @@ im u-center kann eine Text-Anzeige geöffnet werden (View -> Text Console), dann
 Um die Basis erreichen zu können, muss auf dem Router eine Portweiterleitung auf den eingestellten
 Port des NTRIP-Casters und eine DynDNS-Adresse (oder ähnlich, gibt viele Anbieter) eingerichtet werden,
 sodass ein Zugriff vom Rover übers Internet möglich wird. FritzBox-Besitzer können auch eine MyFritz-Addresse
-verwenden. Der Port 2102 erlaubt einen direkten Zugang zum F9P, diesen **nicht** öffentlich zugänglich machen.
+verwenden. Der Port 2102 erlaubt einen direkten Zugang zum GPS-Empfänger, diesen **nicht** öffentlich zugänglich machen.
 
 # Konfiguration
 Die Konfiguration wird in der Datei `ntripcaster.conf` gemacht. Standartmässig wird der
@@ -73,13 +97,16 @@ das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei
 str2str.service ebenfalls angepasst werden. **Achtung: das Passwort für NTRIP wird im Klartext (HTTP Basic Auth)
 über das Internet übertragen. Also etwas nie eines wählen, das schon an anderen Orten verwendet wird!**
 
-Wenn Dateien geändert werden, muss die Datei `update.sh` neu  ausgeführt werden, um sie zu übernehmen.
+Wenn, Änderungen gemacht werden, muss die Datei `update.sh` neu  ausgeführt werden, um sie zu übernehmen:
+```
+sudo ./update.sh
+```
 
 # Logging
 
 Das Logging funktioniert über journald. Wenn alle Ausgaben der Programme live angezeigt werden sollen, muss 
 ```
-journalctl -f -u baseProxy@115200.service -u ntripcaster.service -u str2str.service
+journalctl -f -u baseProxy@115200.service -u ntripcaster.service -u str2str.service -u str2str-M8T.service
 ```
 ausgeführt werden. Der Status der Services kann mit `systemctl status SERVICE` angezeigt werden. Damit werden neben dem Zustand und 
 eventuellen Startschwierigkeiten auch die paar letzten Zeilen Ausgabe mit dem Zeitstempel angezeigt.
@@ -104,16 +131,16 @@ nichts mit den Services hier zu tun.
 Wenn der F9P per USB angeschlossen wird, wird die Baudrate nicht verwendet und kann auf dem Standart belassen werden.
 Wenn ein USB-RS232-Wandler und ein anderer GPS-Empfänger verwendet wird, eventuell schon.
 
-Es ist sehr wichtig, dass der alte Service gestoppt und deaktiviert wird, dies geschieht mit (ALT=alte Baudrate):
+Es ist sehr wichtig, dass der alte Service gestoppt und deaktiviert wird, dies geschieht mit:
 ```
-sudo systemctl stop baseProxy@ALT.service
-sudo systemctl disable baseProxy@ALT.service
+sudo systemctl stop baseProxy@AlteBaudrate.service
+sudo systemctl disable baseProxy@AlteBaudrate.service
 ```
 
-Um den neuen Service zu starten und aktivieren, wird folgendes eingegeben (NEU=neue Baudrate):
+Um den neuen Service zu starten und aktivieren, wird folgendes eingegeben:
 ```
-sudo systemctl start baseProxy@NEU.service
-sudo systemctl enable baseProxy@NEU.service
+sudo systemctl start baseProxy@NeueBaudrate.service
+sudo systemctl enable baseProxy@NeueBaudrate.service
 ```
 
 Falls man nicht mehr weiss, wie man es konfiguriert hat, kann mit `systemctl` alle laufenden Services angezeigt werden.
@@ -136,3 +163,4 @@ sudo systemctl start str2str.service
 Falls die Baudrate geändert wird , muss wie oben beschrieben der Service `baseProxy` mit der
 neuen Baudrate gestartet werden. Wenn es nur temporär ist, müssen die Kommandos mit `systemctl enable ...` und `systemctl disable ...`
 nicht eingegeben werden.
+

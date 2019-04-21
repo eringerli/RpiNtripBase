@@ -1,0 +1,14 @@
+[Unit]
+Description=str2str M8T-Version
+After=network.target
+After=ntripcaster.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+ExecStart=/usr/local/bin/str2str -in tcpcli://localhost:2102#ubx -out ntrips://:gps@localhost:2101/STALL#rtcm3 -c /usr/local/ntripcaster/m8t_base.cmd -p 55.782704 14.837135 168 -msg "1002,1006,1010,1097,1107"
+
+[Install]
+WantedBy=multi-user.target
+

@@ -22,6 +22,13 @@ Dies ist eine einfach zu konfigurierende F9P-Basis für den RPI.
 * Die grundsätzliche Struktur lässt alle Varianten von Empfängern zu, mangels Hardware kann ich aber nicht alle testen. Wenn jemand
   Änderungen macht, kann er mir einen Pull Request schicken, ich nehme die Commits gerne in das Repository auf.
 
+# Struktur, Funktionsweise
+
+Der baseProxy-Service stellt ein TCP-Socket zur Verfügung, welches eine direkte Verbindung zum seriellen Anschluss
+darstellt. Auf diesen Port kann sowohl mit u-center wie auch mit dem nächstem Service, nämlich mit str2str zugegriffen
+werden. Dieser Service leitet die Daten weiter (mit eventueller Konvertierung) an den ntripcaster-Service, welcher den
+Ntripcaster auf Port 2101 bereitstellt. 
+
 # Mitwirkmöglichkeiten
 
 Es gibt grundsätzlich verschiedene Varianten:

@@ -31,17 +31,23 @@ Ntripcaster auf Port 2101 bereitstellt.
 
 # Mitwirkmöglichkeiten
 
-Es gibt grundsätzlich verschiedene Varianten:
+Es gibt grundsätzlich verschiedene Varianten, von gut nach schlecht geordnet:
 
 1. Ein Fork machen (github-Account notwendig, Anleitungen findet man im Internet), die entsprechenden Änderungen machen, 
    das Ganze mit einer **sinnvollen** Beschreibung committen und mir ein Pullrequest schicken. Diese Variante bietet sich an, 
-   wenn man eine genaue Lösung für das Problem hat.
-1. Ein "Issue" erröfnen. Dazu muss ebenfalls ein github-Account eröffnet werden. **Sinnvoll**, und mit **genügend Informationen**
-   die gewünschten Änderungen beschreiben, am besten mit Code oder funktionierenden Beispielen. Diese Lösung bietet sich an,
-   wenn man zwar weiss, was man machen will, aber sich nicht sicher ist, wie es zu implementieren ist.
-1. Mich auf den Telegrammgruppen rund um Cerea/AgOpenGPS anschreiben, am Besten in der F9P-Gruppe
+   wenn man eine genaue Lösung für das Problem hat
+1. Mich auf den Telegramm**gruppen** rund um Cerea/AgOpenGPS anschreiben, am Besten in der F9P-Gruppe
    (https://cerea-forum.de/forum/index.php?thread/427-links-zu-messenger-gruppen/). Diese Lösung ist für diejenigen,
    welche keine Erfahrung mit Linux, systemd und ähnlichem haben und das Problem mit der Community zusammen lösen wollen.
+1. Ein "Issue" erröfnen. Dazu muss ebenfalls ein github-Account eröffnet werden. **Sinnvoll**, und mit **genügend Informationen**
+   die gewünschten Änderungen beschreiben, am besten mit Code oder funktionierenden Beispielen. Diese Lösung bietet sich an,
+   wenn man zwar weiss, was man machen will, aber sich nicht sicher ist, wie es zu implementieren ist. 
+1. Keine gute Idee ist es, mich persönlich anzuschreiben. Die Wahrscheinlichkeit ist sehr gross, dass jemand das gleiche Problem 
+   schon einmal gehabt hat und weiter weiss. Ich kann es auch nicht testen, da ich die Hardware nicht habe, da ist es 
+   ebenfalls sinnvol, wenn mehrere Leute zusammenarbeiten. 
+
+Dies sollte ein Gemeinschaftsprojekt sein. Also alle Erfolge und Änderungen öffentlich machen, so dass andere auch davon 
+profitieren können. 
 
 # Anpassungen/Weiterentwicklung
 

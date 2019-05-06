@@ -1,6 +1,7 @@
 # RpiNtripBase
 
-Dies ist eine einfach zu konfigurierende F9P-Basis für den RPI.
+Dies ist eine einfach zu konfigurierende RTK-Basisstation für den RPI. Verschiedene GPS-Empfänger können angeschlossen werden,
+normalerweise über USB, direkt and die seriellen Schnittstellen geht aber auch.
 
 # Features
 * NTRIP Caster auf Port 2101

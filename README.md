@@ -177,3 +177,10 @@ Falls die Baudrate geändert wird , muss wie oben beschrieben der Service `baseP
 neuen Baudrate gestartet werden. Wenn es nur temporär ist, müssen die Kommandos mit `systemctl enable ...` und `systemctl disable ...`
 nicht eingegeben werden.
 
+# RTCM 1008
+
+Wenn bestimmte Empfänger verwendet werden (z.B. Trimble), müssen leere RTCM-1008-Nachrichten in den Datenstrom eingefügt werden, falls
+diese nicht vom GPS-Empfänger selbst erstellt werden. Wenn dies gewünscht ist, muss anstatt von ```str2str.service```
+```str2str-injectrtcm1008.service``` ausgeführt und aktiviert werden. Der Rest bleibt gleich. Nachzulesen unter diesem
+[Link](https://www.thecombineforum.com/forums/31-technology/331721-how-use-zed-f9p-base-station-trimble.html)
+

@@ -1,0 +1,13 @@
+[Unit]
+Description=str2str with RTCM 1008 injected
+After=network.target
+After=ntripcaster.service
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/bin/bash -c "/usr/bin/socat TCP:localhost:2102 - | /usr/bin/python3 /usr/local/bin/rtcmadd1008.py | /usr/local/bin/str2str -out ntrips://:gps@localhost:2101/STALL"
+
+[Install]
+WantedBy=multi-user.target
+

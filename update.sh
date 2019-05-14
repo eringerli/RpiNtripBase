@@ -3,7 +3,7 @@
 cp ntripcaster.conf /usr/local/ntripcaster/
 cp ntripcaster.logrotate /usr/local/ntripcaster/
 cp m8t_base.cmd /usr/local/ntripcaster/
-cp trimbleadd1008.py /usr/local/bin/
+cp rtcmadd1008.py /usr/local/bin/
 
 cp *.service *.timer /etc/systemd/system
 systemctl daemon-reload

@@ -111,10 +111,17 @@ das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei
 str2str.service ebenfalls angepasst werden. **Achtung: das Passwort für NTRIP wird im Klartext (HTTP Basic Auth)
 über das Internet übertragen. Also etwas nie eines wählen, das schon an anderen Orten verwendet wird!**
 
-Wenn, Änderungen gemacht werden, muss die Datei `update.sh` neu  ausgeführt werden, um sie zu übernehmen:
+Wenn Änderungen gemacht werden, muss die Datei `update.sh` neu  ausgeführt werden, um sie zu übernehmen.
+
+Wenn neu eingelogt wird, muss zuerst in den Ordner gewechselt werden, wohin `RpiNtripBase` heruntergeladen wurde. Dies geschieht mit 
+```
+cd RpiNtripBase
+```
+Auf der Konsole sollte nun der Ordner angezeigt werden, normalerweise vor dem blinkenden Cursor. Dieser Schritt erübrigt sich, wenn man schon im entsprechenden Ordner ist. Dann wird mit
 ```
 sudo ./update.sh
 ```
+alle Änderungen übernommen.
 
 # Logging
 

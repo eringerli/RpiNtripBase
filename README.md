@@ -192,3 +192,11 @@ diese nicht vom GPS-Empfänger selbst erstellt werden. Wenn dies gewünscht ist,
 ```str2str-injectrtcm1008.service``` ausgeführt und aktiviert werden. Der Rest bleibt gleich. Nachzulesen unter diesem
 [Link](https://www.thecombineforum.com/forums/31-technology/331721-how-use-zed-f9p-base-station-trimble.html)
 
+
+# Trinkgeld
+
+Ich habe diese Software hauptsächlich für meine eigene Basis geschrieben, da mir die bestehenden Lösungen nicht zugesagt haben. 
+
+Wem sie gefällt und Lust dazu hat, kann mir ein kleines Trinkgeld überweisen.
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/eringerli)

@@ -1,6 +1,6 @@
 # RpiNtripBase
 
-Dies ist eine einfach zu konfigurierende RTK-Basisstation für den RPI. Verschiedene GPS-Empfänger können angeschlossen werden,
+Dies ist eine einfach zu konfigurierende RTK-Basisstation für Linux. Verschiedene GPS-Empfänger können angeschlossen werden,
 normalerweise über USB, direkt and die seriellen Schnittstellen geht aber auch.
 
 # Features
@@ -9,12 +9,21 @@ normalerweise über USB, direkt and die seriellen Schnittstellen geht aber auch.
   Installation mit dem uCenter konfiguriert und geupdatet werden
 * Alles über systemd-services geregelt; werden automatisch gestartet, haben in eingebautes logging und starten sich bei Absturz selber neu
 * Baudrate einfach änderbar
+* Läuft grundsätzlich überall, wo ein Linux läuft, `systemd` verwendet wird und man `root`-Zugriff hat.
 
 # Voraussetzungen
 
+## Raspberry Pi
 * Der RPI ist mit Raspbian geflasht, alle Passwörter sind geändert und alle Netzwerke eingerichtet
 * Ein Zugriff mit `ssh` (oder Putty auf Windows) besteht (Datei `ssh` auf der Bootpartition anlegen)
 * Der F9P ist als Basis konfiguriert; es sollten nur RTCM-Nachrichten ausgegeben werden.
+
+## Andere Systeme
+* Raspberry Pi Klon: Image vom Hersteller verwenden, das sollte grundsätzlich funktionieren, solange eine ausreichend moderne Version verfügbar ist. 
+* Andere Linux-Systeme (wie Router, Desktop, NAS): sicherstellen, dass `systemd` verwendet wird und man `root`-Zugriff hat. Ich gehe davon aus, 
+  dass wenn jemand die Basis auf so einem System aufbaut, er genug Erfahrung hat, um mit den Informationen hier zurechtzukommen. 
+
+## Allgemein
 * **Der Benutzer hat alles durchgelesen und versteht was er macht (oder macht nur das, was hier beschrieben ist...)**
 
 # Bekannte Unzulänglichkeiten
@@ -109,7 +118,7 @@ Die Konfiguration wird in der Datei `ntripcaster.conf` gemacht. Standartmässig 
 Caster auf dem Port 2101 gestartet, der Mountpoint ist "STALL", der Benutzername und
 das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei 
 str2str.service ebenfalls angepasst werden. **Achtung: das Passwort für NTRIP wird im Klartext (HTTP Basic Auth)
-über das Internet übertragen. Also etwas nie eines wählen, das schon an anderen Orten verwendet wird!**
+über das Internet übertragen. Also etwas nie eines wählen, das schon an anderen Orten verwendet wird, da es extrem einfach ist, dieses anzuhören!**
 
 Wenn Änderungen gemacht werden, muss die Datei `update.sh` neu  ausgeführt werden, um sie zu übernehmen.
 
@@ -180,6 +189,11 @@ Um die Basis wieder per NTRIP erreichbar zu machen, muss `str2str.service` wiede
 ```
 sudo systemctl start str2str.service
 ```
+
+Es sollte auch ohne abschalten von `str2str.service` funktionieren (**auf eigene Gefahr!**) , dann werden aber alle Daten über NTRIP gespiegelt, was nicht so intelligent ist, 
+vor allem, wenn der Empfänger geupdatet wird (der Rover wird gerade mitkonfiguriert, kein erwünschtes Verhalten). Ebenfalls sollte die Verbindung von uCenter wieder getrennt werden, da der Empfänger bei Verbindung allerlei zusätzliche Informationen sendet, 
+die das Datenvolumen auf dem Rover schnell ansteigen lassen. Aber das sollte kein grosses Problem darstellen, wenn sichergestellt ist, dass keine Clients 
+am Ntrip-caster hängen. 
 
 Falls die Baudrate geändert wird , muss wie oben beschrieben der Service `baseProxy` mit der
 neuen Baudrate gestartet werden. Wenn es nur temporär ist, müssen die Kommandos mit `systemctl enable ...` und `systemctl disable ...`

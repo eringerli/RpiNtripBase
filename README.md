@@ -1,7 +1,7 @@
 # RpiNtripBase
 
 Dies ist eine einfach zu konfigurierende RTK-Basisstation für Linux. Verschiedene GPS-Empfänger können angeschlossen werden,
-normalerweise über USB, direkt and die seriellen Schnittstellen geht aber auch.
+normalerweise über USB, direkt an der seriellen Schnittstellen geht aber auch.
 
 # Features
 * NTRIP Caster auf Port 2101
@@ -118,7 +118,7 @@ Die Konfiguration wird in der Datei `ntripcaster.conf` gemacht. Standartmässig 
 Caster auf dem Port 2101 gestartet, der Mountpoint ist "STALL", der Benutzername und
 das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei 
 str2str.service ebenfalls angepasst werden. **Achtung: das Passwort für NTRIP wird im Klartext (HTTP Basic Auth)
-über das Internet übertragen. Also etwas nie eines wählen, das schon an anderen Orten verwendet wird, da es extrem einfach ist, dieses anzuhören!**
+über das Internet übertragen. Also etwas nie eines wählen, das schon an anderen Orten verwendet wird, da es extrem einfach ist, dieses abzuhören!**
 
 Wenn Änderungen gemacht werden, muss die Datei `update.sh` neu  ausgeführt werden, um sie zu übernehmen.
 

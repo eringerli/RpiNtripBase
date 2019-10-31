@@ -206,6 +206,14 @@ diese nicht vom GPS-Empfänger selbst erstellt werden. Wenn dies gewünscht ist,
 ```str2str-injectrtcm1008.service``` ausgeführt und aktiviert werden. Der Rest bleibt gleich. Nachzulesen unter diesem
 [Link](https://www.thecombineforum.com/forums/31-technology/331721-how-use-zed-f9p-base-station-trimble.html)
 
+# Anderer NTRIP Caster
+
+Falls ein anderer NTRIP Caster als der lokale verwendet werden will (z. B. rtk2go oder andere Caster im Internet), muss
+die Datei `str2str.service` mit anderen Login-Daten bestückt werden. Der Service `ntripcaster.service` muss dann
+nicht gestartet und aktiviert werden.
+
+Es braucht keine Portweiterleitung und DynDNS-Adresse mehr. Das würde demnach auch mit Internetanbindungen ohne öffentliche IP
+(wie manche LTE-Router bzw -Modems anbieten) funktionieren. 
 
 # Trinkgeld
 

@@ -1,0 +1,12 @@
+[Unit]
+Description=str2str-remoteCaster
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+ExecStart=/usr/local/bin/str2str -in tcpcli://localhost:2102 -out ntrips://:PASSWORT@rtk2go.com:2101/MOUNTPOINT
+
+[Install]
+WantedBy=multi-user.target

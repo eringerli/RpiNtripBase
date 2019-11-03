@@ -74,7 +74,7 @@ welcher Art sein Empfänger ist und welcher Service er starten will.
 
 Um das Ganze zu installieren, wird zuerst ein normales Raspbian-Image (ohne Desktop; Stretch Lite reicht) auf eine SD-Karte
 gebrannt und konfiguriert. Anleitungen dazu findet man genug auf dem Internet, 
-z.B. https://howtoraspberrypi.com/how-to-raspberry-pi-headless-setup/ oder https://www.dahlen.org/2017/10/raspberry-pi-zero-w-headless-setup/
+z.B. [https://howtoraspberrypi.com/how-to-raspberry-pi-headless-setup/] oder [https://www.dahlen.org/2017/10/raspberry-pi-zero-w-headless-setup/]
 
 Dann wird auf dem Pi per `ssh` (oder Putty)  eingelogt und Git und Socat installiert:
 ```
@@ -105,7 +105,8 @@ sudo systemctl enable str2str.service
 sudo systemctl start str2str.service
 ```
 Wenn ein M8T angeschlossen wird, muss statt `str2str.service` `str2str-M8T.service` ausgeführt werden. Weiter muss die Position der Basis in der Datei
-`str2str-M8T.service` angepasst werden.
+`str2str-M8T.service` angepasst werden (siehe [Konfiguration](#konfiguration)). Wenn ein öffentlicher Caster verwendet wird, bitte unter dem Punkt
+[Anderer NTRIP Caster](#anderer-ntrip-caster) schauen.
 
 Wenn der GPS-Empfänger über eine serielle Schnittstelle angeschlossen wurde (z.B. M8T mit TTL-Serial-zu-USB-Wandler), muss die Baudrate
 korrekt konfiguriert sein (zwei mal!). Wenn er direkt über USB verbunden ist, ist es egal (z.B. F9P über USB). Hier hilft ausprobieren:
@@ -202,7 +203,7 @@ sudo systemctl start str2str.service
 Es sollte auch ohne abschalten von `str2str.service` funktionieren (**auf eigene Gefahr!**) , dann werden aber alle Daten über NTRIP gespiegelt, was nicht so intelligent ist, 
 vor allem, wenn der Empfänger geupdatet wird (der Rover wird gerade mitkonfiguriert, kein erwünschtes Verhalten). Ebenfalls sollte die Verbindung von uCenter wieder getrennt werden, da der Empfänger bei Verbindung allerlei zusätzliche Informationen sendet, 
 die das Datenvolumen auf dem Rover schnell ansteigen lassen. Aber das sollte kein grosses Problem darstellen, wenn sichergestellt ist, dass keine Clients 
-am Ntrip-caster hängen. 
+am Ntrip-Caster hängen.
 
 Falls die Baudrate geändert wird , muss wie oben beschrieben der Service `baseProxy` mit der
 neuen Baudrate gestartet werden. Wenn es nur temporär ist, müssen die Kommandos mit `systemctl enable ...` und `systemctl disable ...`
@@ -218,11 +219,31 @@ diese nicht vom GPS-Empfänger selbst erstellt werden. Wenn dies gewünscht ist,
 # Anderer NTRIP Caster
 
 Falls ein anderer NTRIP Caster als der lokale verwendet werden will (z. B. rtk2go oder andere Caster im Internet), muss
-die Datei `str2str.service` mit anderen Login-Daten bestückt werden. Der Service `ntripcaster.service` muss dann
+die Datei `str2str-remoteCaster.service` mit anderen Login-Daten bestückt werden. Der Service `ntripcaster.service` muss dann
 nicht gestartet und aktiviert werden.
 
 Es braucht keine Portweiterleitung und DynDNS-Adresse mehr. Das würde demnach auch mit Internetanbindungen ohne öffentliche IP
 (wie manche LTE-Router bzw -Modems anbieten) funktionieren. 
+
+Der Service `str2str-remoteCaster.service` ist in der Grundkonfiguration für RTK2Go ausgelegt. Es ist so aufgebaut, dass er den
+lokalen Caster nicht automatisch mitstartet. Um den Service zu verwenden, müssen die Login-Daten und je nach dem der Host geändert werden.
+
+Dann kann das Ganze gestartet werden:
+```
+sudo ./update.sh
+systemctl enable str2str-remoteCaster.service
+systemctl start str2str-remoteCaster.service
+```
+
+Nach dem wird der Service automatisch neu gestartet, wenn die Daten in `str2str-rtk2go.service` angepasst werden und `sudo ./update.sh`
+ausgeführt wird. Dieser Service kann parallel zum lokalen Caster laufen, oder dieser und der dazugehörige `str2str.service` kann mit
+```
+sudo systemctl stop ntripcaster.service
+sudo systemctl disable ntripcaster.service
+sudo systemctl stop str2str.service
+sudo systemctl disable str2str.service
+```
+gestoppt und deaktiviert werden.
 
 # Trinkgeld
 

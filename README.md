@@ -142,6 +142,15 @@ Wenn eigene Dateien/Services erstellt werden, müssen diese nach `sudo ./update.
 sudo systemctl restart DATEI.service
 ```
 
+# Fehlersuche
+
+Um mal zu schauen, was auf der Schnittstelle vom GPS-Empfänger ankommt, kann folgendes Kommando verwendet werden:
+```
+/usr/bin/socat TCP:localhost:2102 -
+```
+
+Beendet wird es mit `Ctrl+C`. Dazu muss der Service `baseProxy@.service` laufen.
+
 # Logging
 
 Das Logging funktioniert über journald. Wenn alle Ausgaben der Programme live angezeigt werden sollen, muss 

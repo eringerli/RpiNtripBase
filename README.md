@@ -25,6 +25,9 @@ normalerweise über USB, direkt an der seriellen Schnittstellen geht aber auch.
 
 ## Allgemein
 * **Der Benutzer hat alles durchgelesen und versteht was er macht (oder macht nur das, was hier beschrieben ist...)**
+* **Ein Fork ist nicht nötig, braucht nur Ressourcen auf github. Es gibt für das das kleine Sternchen, damit ist auch 
+  sichergestellt, dass man das Repository wieder findet.**
+
 
 # Bekannte Unzulänglichkeiten
 
@@ -49,11 +52,11 @@ Es gibt grundsätzlich verschiedene Varianten, von gut nach schlecht geordnet:
 1. Mich auf den Telegramm**gruppen** rund um Cerea/AgOpenGPS anschreiben, am Besten in der F9P-Gruppe
    (https://cerea-forum.de/forum/index.php?thread/427-links-zu-messenger-gruppen/). Diese Lösung ist für diejenigen,
    welche keine Erfahrung mit Linux, systemd und ähnlichem haben und das Problem mit der Community zusammen lösen wollen.
-1. Ein "Issue" erröfnen. Dazu muss ebenfalls ein github-Account eröffnet werden. **Sinnvoll**, und mit **genügend Informationen**
+1. Ein "Issue" erröffnen. Dazu muss ebenfalls ein github-Account erstellt werden. **Sinnvoll**, und mit **genügend Informationen**
    die gewünschten Änderungen beschreiben, am besten mit Code oder funktionierenden Beispielen. Diese Lösung bietet sich an,
    wenn man zwar weiss, was man machen will, aber sich nicht sicher ist, wie es zu implementieren ist. 
 1. Keine gute Idee ist es, mich persönlich anzuschreiben. Die Wahrscheinlichkeit ist sehr gross, dass jemand das gleiche Problem 
-   schon einmal gehabt hat und weiter weiss. Ich kann es auch nicht testen, da ich die Hardware nicht habe, da ist es 
+   schon einmal gehabt hat und weiter weiss. Ich kann es auch nicht alles testen, wenn ich die Hardware nicht habe, da ist es 
    ebenfalls sinnvol, wenn mehrere Leute zusammenarbeiten. 
 
 Dies sollte ein Gemeinschaftsprojekt sein. Also alle Erfolge und Änderungen öffentlich machen, so dass andere auch davon 
@@ -114,23 +117,29 @@ sodass ein Zugriff vom Rover übers Internet möglich wird. FritzBox-Besitzer k�
 verwenden. Der Port 2102 erlaubt einen direkten Zugang zum GPS-Empfänger, diesen **nicht** öffentlich zugänglich machen.
 
 # Konfiguration
-Die Konfiguration wird in der Datei `ntripcaster.conf` gemacht. Standartmässig wird der
+Dateien werden am einfachsten mit dem Programm `nano` bearbeitet, dieses wird mit `nano DATEI` gestartet. Um die Datei zu speichern und `nano` zu beenden, wird in `nano` `Ctrl+X` gedrückt und die anschliessende Frage mit `Y` beantwortet.
+
+Grundsätzlich ist es einfacher, Schritt für Schritt Sachen zu verändern und diese jeweils zu testen, als alles auf einmal zu 
+konfigurieren.  Wenn man bedenkt, dass dieses System dann ohne weitere Wartung lange Zeit von alleine läuft, sind diese paar 
+Minuten gut investiert.
+
+Die Konfiguration des NTRIP Casters wird in der Datei `ntripcaster.conf` gemacht. Standartmässig wird der
 Caster auf dem Port 2101 gestartet, der Mountpoint ist "STALL", der Benutzername und
 das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei 
 str2str.service ebenfalls angepasst werden. **Achtung: das Passwort für NTRIP wird im Klartext (HTTP Basic Auth)
 über das Internet übertragen. Also etwas nie eines wählen, das schon an anderen Orten verwendet wird, da es extrem einfach ist, dieses abzuhören!**
 
-Wenn Änderungen gemacht werden, muss die Datei `update.sh` neu  ausgeführt werden, um sie zu übernehmen.
+**Wenn Änderungen gemacht werden, muss das Kommando `sudo ./update.sh` neu  ausgeführt werden, um sie zu übernehmen.**
 
 Wenn neu eingelogt wird, muss zuerst in den Ordner gewechselt werden, wohin `RpiNtripBase` heruntergeladen wurde. Dies geschieht mit 
 ```
 cd RpiNtripBase
 ```
-Auf der Konsole sollte nun der Ordner angezeigt werden, normalerweise vor dem blinkenden Cursor. Dieser Schritt erübrigt sich, wenn man schon im entsprechenden Ordner ist. Dann wird mit
+
+Wenn eigene Dateien/Services erstellt werden, müssen diese nach `sudo ./update.sh` manuell neu gestartet werden. Die schon vorgegebenen werden in `./update.sh` automatisch neu gestartet, vorausgesetzt, sie sind schon gestartet. Dies geschieht mit
 ```
-sudo ./update.sh
+sudo systemctl restart DATEI.service
 ```
-alle Änderungen übernommen.
 
 # Logging
 
@@ -143,10 +152,10 @@ eventuellen Startschwierigkeiten auch die paar letzten Zeilen Ausgabe mit dem Ze
 
 Weiter ist der ntripcaster so konfiguriert, dass er in die Datei `/tmp/ntripcaster.log` schreibt. Um diese Datei komfortabel anzuzeigen,
 muss `less /tmp/ntripcaster.log` ausgeführt werden. Das zeigt eine scrollbare Ansicht der Datei an. Mit Eingabe von `End` (die Taste) wird
-an das Ende gesprungen, mit `Shift+F` in Echtzeit aktualisiert. Um diesen Modus zu verlassen, wird `Ctrl+C` eingeben. Um das Programm zu
+an das Ende gesprungen, mit `Shift+F` in Echtzeit aktualisiert. Um diesen Modus zu verlassen, wird `Ctrl+C` eingegeben. Um das Programm zu
 verlassen, wird `Q` gedrückt.
 
-Debian Stretch Lite ist so konfiguriert, dass journald nicht auf die SD-Karte schreibt, um diese zu schonen. Wenn es anders gewünscht wird
+Debian Stretch Lite ist so konfiguriert, dass `journald` nicht auf die SD-Karte schreibt, um diese zu schonen. Wenn es anders gewünscht wird
 (nicht zu empfehlen), kann das natürlich geändert werden. Anleitungen findet man im Internet (nach `journald persistent storage` suchen).
 Auch der Speicherort von `ntripcaster.log` ist so gewählt, dass keine Schreiboperationen auf die SD-Karte ausgelöst werden. Mittels dem 
 `logrotate-ntripcaster.service` wird die Grösse auf max 10MB begrenzt und die Anzahl Dateien auf drei. Somit ist mit der RTK-Basis ein
@@ -154,8 +163,8 @@ wartungsfreier Dauereinsatz möglich. Wenn ein persistentes Logging gewünscht w
 Auch können alle Parameter der Rotation in `ntripcaster.logrotate` eingestellt werden.
 
 Ein Nachteil gibt es an dieser Konfiguration: die Logdateien und Einträge werden bei jedem Herunterfahren gelöscht. Sollte aber kein
-Problem darstellen, da die Basis nie automatisch neu Startet oder ähnliches. Falls eine Boot-Schleife entsteht, hat es ziemlich sicher
-nichts mit den Services hier zu tun.
+Problem darstellen, da die Basis nie automatisch neu startet oder ähnliches. Falls eine Boot-Schleife entsteht, hat es ziemlich sicher
+nichts mit den Services hier hier zu tun.
 
 # Andere Baud-Raten
 Wenn der F9P per USB angeschlossen wird, wird die Baudrate nicht verwendet und kann auf dem Standart belassen werden.

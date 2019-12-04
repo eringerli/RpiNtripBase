@@ -228,8 +228,8 @@ diese nicht vom GPS-Empfänger selbst erstellt werden. Wenn dies gewünscht ist,
 # Anderer NTRIP Caster
 
 Falls ein anderer NTRIP Caster als der lokale verwendet werden will (z. B. rtk2go oder andere Caster im Internet), muss
-die Datei `str2str-remoteCaster.service` mit anderen Login-Daten bestückt werden. Der Service `ntripcaster.service` muss dann
-nicht gestartet und aktiviert werden.
+die Datei `str2str-remoteCaster.service` mit anderen Login-Daten bestückt, aktiviert und gestartet werden. Der lokale Caster im Service `ntripcaster.service` muss dann
+nicht gestartet und aktiviert werden, kann aber parallel dazu auch laufen. 
 
 Es braucht keine Portweiterleitung und DynDNS-Adresse mehr. Das würde demnach auch mit Internetanbindungen ohne öffentliche IP
 (wie manche LTE-Router bzw -Modems anbieten) funktionieren. 
@@ -244,7 +244,7 @@ systemctl enable str2str-remoteCaster.service
 systemctl start str2str-remoteCaster.service
 ```
 
-Nach dem wird der Service automatisch neu gestartet, wenn die Daten in `str2str-rtk2go.service` angepasst werden und `sudo ./update.sh`
+Nach dem wird der Service automatisch neu gestartet, wenn die Daten in `str2str-remoteCaster.service` angepasst werden und `sudo ./update.sh`
 ausgeführt wird. Dieser Service kann parallel zum lokalen Caster laufen, oder dieser und der dazugehörige `str2str.service` kann mit
 ```
 sudo systemctl stop ntripcaster.service

@@ -40,7 +40,9 @@ normalerweise über USB, direkt an der seriellen Schnittstellen geht aber auch.
 Der baseProxy-Service stellt ein TCP-Socket zur Verfügung, welches eine direkte Verbindung zum seriellen Anschluss
 darstellt. Auf diesen Port kann sowohl mit u-center wie auch mit dem nächstem Service, nämlich mit str2str zugegriffen
 werden. Dieser Service leitet die Daten weiter (mit eventueller Konvertierung) an den ntripcaster-Service, welcher den
-Ntripcaster auf Port 2101 bereitstellt. 
+Ntripcaster auf Port 2101 bereitstellt. Dieser Port kann dann auf dem Router freigegeben werden. Die Einrichtung einer
+DynDNS-Adresse ist von Vorteil, so kann von einem beliebigen Gerät über das Internet auf den Caster zugegriffen werden. 
+Ohne DynDNS-Adresse muss die öffentliche IP vom Router eingegeben werden. 
 
 # Mitwirkmöglichkeiten
 

@@ -28,7 +28,6 @@ normalerweise über USB, direkt an der seriellen Schnittstellen geht aber auch.
 * **Ein Fork ist nicht nötig, braucht nur Ressourcen auf github. Es gibt für das das kleine Sternchen, damit ist auch 
   sichergestellt, dass man das Repository wieder findet.**
 
-
 # Bekannte Unzulänglichkeiten
 
 * Nur die Basis mit einem F9P und M8T implementiert;
@@ -78,8 +77,10 @@ Um das Ganze zu installieren, wird zuerst ein normales Raspbian-Image (ohne Desk
 gebrannt und konfiguriert. Anleitungen dazu findet man genug auf dem Internet, 
 z.B. [https://howtoraspberrypi.com/how-to-raspberry-pi-headless-setup/] oder [https://www.dahlen.org/2017/10/raspberry-pi-zero-w-headless-setup/]
 
-Dann wird auf dem Pi per `ssh` (oder Putty)  eingelogt und Git und Socat installiert:
+Dann wird auf dem Pi per `ssh` (oder Putty)  eingelogt und das ganze System auf den neusten Stand gebracht, Git und Socat installiert:
 ```
+sudo apt-get update
+sudo apt-get upgrade
 sudo apt-get install git socat
 ```
 

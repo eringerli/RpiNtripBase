@@ -25,8 +25,14 @@ normalerweise über USB, direkt an der seriellen Schnittstellen geht aber auch.
 
 ## Allgemein
 * **Der Benutzer hat alles durchgelesen und versteht was er macht (oder macht nur das, was hier beschrieben ist...)**
-* **Ein Fork ist nicht nötig, braucht nur Ressourcen auf github. Es gibt für das das kleine Sternchen, damit ist auch 
-  sichergestellt, dass man das Repository wieder findet.**
+* **Ein Fork ist nicht nötig, das braucht nur Ressourcen auf github. Zum markieren und wiederfinden gibt es das kleine Sternchen.** 
+  Einen eigenen Fork mit dem ursprünglichen Repository zu synchronisieren 
+  ist nicht ganz trivial, darum wäre es wichtig, um alle Updates mitzubekommen, keinen eigenen Fork zu machen. Ohne Fork reicht
+  ein einfaches `git pull` um alle Updates einzupflegen. Wenn Dateien geändert wurden, werden diese nicht automatisch überschrieben
+  und das Updaten wird abgebrochen. Um das zu umgehen kann die betreffende Datei umbenannt werden (mit `mv ALT NEU`). Nach dem
+  Updaten können die Dateien verglichen und je nach dem entweder gelöscht (mit `rm DATEI`) oder wieder zurückbennannt
+  werden. Aufpassen, die Services (alles mit `.service` als Dateiendung) werden per Namen aktiviert/gestartet, also werden mit `./update.sh`
+  zwar die umbenannten Dateien zusätzlich auf das System kopiert, aber die vorherige Version überschrieben. 
 
 # Bekannte Unzulänglichkeiten
 

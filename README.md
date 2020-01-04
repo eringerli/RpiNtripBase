@@ -162,7 +162,7 @@ das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei
 über das Internet übertragen. Also nie eines wählen, das schon an anderen Orten verwendet wird, da es extrem einfach ist, dieses abzuhören!**
 
 ## `sourcetable.dat`
-Wenn eine `sourcetable.dat` verwendet werden soll (optional), dann muss zuerst die Datei `sourcetable.dat.dist` unbenennt werden:
+Wenn eine `sourcetable.dat` verwendet werden soll (optional), dann muss zuerst die Datei `sourcetable.dat.dist` unbenannt werden:
 ```
 cp ntripcaster.service ntripcaster.service
 ```

@@ -140,27 +140,45 @@ Port des NTRIP-Casters und eine DynDNS-Adresse (oder ähnlich, gibt viele Anbiet
 sodass ein Zugriff vom Rover übers Internet möglich wird. FritzBox-Besitzer können auch eine MyFritz-Addresse
 verwenden. Der Port 2102 erlaubt einen direkten Zugang zum GPS-Empfänger, diesen **nicht** öffentlich zugänglich machen.
 
-# Konfiguration
-Dateien werden am einfachsten mit dem Programm `nano` bearbeitet, dieses wird mit `nano DATEI` gestartet. Um die Datei zu speichern und `nano` zu beenden, wird in `nano` `Ctrl+X` gedrückt und die anschliessende Frage mit `Y` beantwortet.
+# Konfiguration der Basis
+
+## Allgemein
+Dateien werden am einfachsten mit dem Programm `nano` bearbeitet, dieses wird mit `nano DATEI` gestartet. Um die Datei zu speichern und `nano` zu beenden, wird in `nano` `Ctrl+X` gedrückt und die anschliessende Frage mit `Y` beantwortet um die Datei zu speichern.
 
 Grundsätzlich ist es einfacher, Schritt für Schritt Sachen zu verändern und diese jeweils zu testen, als alles auf einmal zu 
 konfigurieren.  Wenn man bedenkt, dass dieses System dann ohne weitere Wartung lange Zeit von alleine läuft, sind diese paar 
-Minuten gut investiert.
-
-Die Konfiguration des NTRIP Casters wird in der Datei `ntripcaster.conf` gemacht. Standartmässig wird der
-Caster auf dem Port 2101 gestartet, der Mountpoint ist "STALL", der Benutzername und
-das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei 
-str2str.service ebenfalls angepasst werden. **Achtung: das Passwort für NTRIP wird im Klartext (HTTP Basic Auth)
-über das Internet übertragen. Also etwas nie eines wählen, das schon an anderen Orten verwendet wird, da es extrem einfach ist, dieses abzuhören!**
-
-**Wenn Änderungen gemacht werden, muss das Kommando `sudo ./update.sh` neu  ausgeführt werden, um sie zu übernehmen.**
+Minuten gut investiert. Wenn man sich total ins Abseits konfiguriert hat, kann auch mit einem erneuten Klonen in einem zweiten Ordner neu begonnen werden.
 
 Wenn neu eingelogt wird, muss zuerst in den Ordner gewechselt werden, wohin `RpiNtripBase` heruntergeladen wurde. Dies geschieht mit 
 ```
 cd RpiNtripBase
 ```
 
-Wenn eigene Dateien/Services erstellt werden, müssen diese nach `sudo ./update.sh` manuell neu gestartet werden. Die schon vorgegebenen werden in `./update.sh` automatisch neu gestartet, vorausgesetzt, sie sind schon gestartet. Dies geschieht mit
+## ntripcaster
+Die Konfiguration des NTRIP Casters wird in der Datei `ntripcaster.conf` gemacht. Standartmässig wird der
+Caster auf dem Port 2101 gestartet, der Mountpoint ist "STALL", der Benutzername und
+das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei 
+`str2str.servic` ebenfalls angepasst werden. **Achtung: das Passwort für NTRIP wird im Klartext (HTTP Basic Auth)
+über das Internet übertragen. Also nie eines wählen, das schon an anderen Orten verwendet wird, da es extrem einfach ist, dieses abzuhören!**
+
+## `sourcetable.dat`
+Wenn eine `sourcetable.dat` verwendet werden soll (optional), dann muss zuerst die Datei `sourcetable.dat.dist` unbenennt werden:
+```
+cp ntripcaster.service ntripcaster.service
+```
+Dann werden die Werte angepasst, vor allem die Position muss geändert werden. Die vorgegebene Position ist mitten im Vierwaldstättersee in der Schweiz. Wenn zusätzliche RTCM-Daten übertragen werden, kann dies hier angegeben werden. Die fetten Teile sollten angepasst werden:
+
+> CAS;www.euref-ip.net;2101;EUREF-IP;BKG;0;DEU;50.12;8.69;http://www.euref-ip.net/home
+> CAS;**example.com**;2101;NtripInfoCaster;**Beispielorganisation**;0;**CHE;47.02;8.36**;0.0.0.0;0
+> STR;STALL;**Vierwaldstaettersee**;RTCM 3.0;1005(1),1074(30),1084(1),1094(1),1230(1);2;GPS GLONASS GALILEO;RASPI;**CHE;47.02;8.36**;0;0;F9P UBLOX;B;N
+
+In der ersten Zeile muss nichts geändert werden. In der zweiten `example.com` zum eigenen, öffentlichen DNS-Namen, `Beispielorganisation` zB. zum Hof, und natürlich das Land und die Position. In der dritten Zeile wird `Vierwaldstaettersee` zur nächsten Stadt, zusätzlich dazu das Land und die Position geändert. Die Position darf nicht zu genau sein, der Standart schreibt eine Genauigkeit von zwei Nachkommastellen vor. Besser nichts riskieren und ohne Umlaute und andere Sonderzeichen arbeiten.
+
+## Übernehmen der Änderungen
+Wenn alle Dateien angepasst worden sind, **muss das Kommando `sudo ./update.sh` ausgeführt werden.** Dieses Kommando muss nach jeder zusammenhängenden Änderung ausgeführt werden und überschreibt die Einstellungsdateien auf dem System mit den geänderten. Damit ist es möglich, Änderungen _en bloc_ zu übernehmen, wenn zB. die Zugangsdaten in verschiedenen Dateien gleichzeitig angepasst werden.
+
+## Fortgeschrittene Verwendung
+Wenn eigene Dateien/Services erstellt werden, müssen diese nach `sudo ./update.sh` manuell neu gestartet werden. Die schon vorgegebenen werden in `./update.sh` automatisch neu gestartet, vorausgesetzt, sie sind schon gestartet. Falls man selbst Services neu starten will, führt man folgendes Kommando aus:
 ```
 sudo systemctl restart DATEI.service
 ```
@@ -219,25 +237,23 @@ Falls man nicht mehr weiss, wie man es konfiguriert hat, kann mit `systemctl` al
 Lieber einmal zuviel `systemctl disable ...` eingeben, als man hat nach dem Reboot zwei baseProxy-Services gleichtzeitig
 am laufen. Diese konkurieren um die serielle Schnittstelle, was nicht funktionieren kann.
 
-# Konfiguration mit uCenter
 
-Um die Basis mit dem uCenter zu konfigurieren, wird zuerst `str2str.service` abgeschalten:
+# Konfiguration mit u-center
+
+Um die Basis mit dem u-center zu konfigurieren, wird zuerst `str2str.service` abgeschalten:
 ```
 sudo systemctl stop str2str.service
 ```
 
-Dann wird im uCenter eine neue Verbindung per TCP hergestellt, also mit `tcp://IP-BASIS:2102`. Die Basis kann nun normal konfiguriert werden.
-Um die Basis wieder per NTRIP erreichbar zu machen, muss `str2str.service` wieder gestartet werden:
+Dann wird im u-center eine neue Verbindung per TCP hergestellt, also mit `tcp://IP-BASIS:2102`. Die Basis kann nun normal konfiguriert werden. Nach dem Konfigurieren/Updaten kann es gerne mal vorkommen, dass der F9P nicht mehr erreichbar ist, da er sich neu am USB-Bus anmeldet und damit eine neuen Namen bekommt. Die einfachste Lösung ist hier ein Neustart der Basis mit `sudo reboot`. Falls das nicht vorkommt und um die Basis wieder per NTRIP erreichbar zu machen, muss `str2str.service` wieder gestartet werden:
 ```
 sudo systemctl start str2str.service
 ```
 
-Es sollte auch ohne abschalten von `str2str.service` funktionieren (**auf eigene Gefahr!**) , dann werden aber alle Daten über NTRIP gespiegelt, was nicht so intelligent ist, 
-vor allem, wenn der Empfänger geupdatet wird (der Rover wird gerade mitkonfiguriert, kein erwünschtes Verhalten). Ebenfalls sollte die Verbindung von uCenter wieder getrennt werden, da der Empfänger bei Verbindung allerlei zusätzliche Informationen sendet, 
-die das Datenvolumen auf dem Rover schnell ansteigen lassen. Aber das sollte kein grosses Problem darstellen, wenn sichergestellt ist, dass keine Clients 
-am Ntrip-Caster hängen.
+**Ohne das Stoppen von `str2str.service` funktioniert ein Updaten/Konfigurieren über u-center nicht.** Auch muss je nach aufgespielter Konfiguration zuerst die Ausgabe von UBX-Packeten wieder angeschalten werden: Konfigfenster :arrow_right: Port  :arrow_right: Dropdown auf `USB` stellen, dann bei `Protocol in/out` etwas mit `UBX` wählen. Nach dem Konfigurieren sollte die Verbindung von u-center wieder getrennt werden, da der Empfänger bei Verbindung allerlei zusätzliche Informationen sendet, 
+die das Datenvolumen auf dem Rover schnell ansteigen lassen. Je nach ntripcaster auf der anderen Seite kann das zu einer Sperre führen.
 
-Falls die Baudrate geändert wird , muss wie oben beschrieben der Service `baseProxy` mit der
+Falls die Baudrate geändert wird und der F9P nicht per USB angeschlossen ist, muss wie oben beschrieben der Service `baseProxy` mit der
 neuen Baudrate gestartet werden. Wenn es nur temporär ist, müssen die Kommandos mit `systemctl enable ...` und `systemctl disable ...`
 nicht eingegeben werden.
 
@@ -246,7 +262,7 @@ nicht eingegeben werden.
 Wenn bestimmte Empfänger verwendet werden (z.B. Trimble), müssen leere RTCM-1008-Nachrichten in den Datenstrom eingefügt werden, falls
 diese nicht vom GPS-Empfänger selbst erstellt werden. Wenn dies gewünscht ist, muss anstatt von ```str2str.service```
 ```str2str-injectrtcm1008.service``` ausgeführt und aktiviert werden. Der Rest bleibt gleich. Nachzulesen unter diesem
-[Link](https://www.thecombineforum.com/forums/31-technology/331721-how-use-zed-f9p-base-station-trimble.html)
+[Link](https://www.thecombineforum.com/forums/31-technology/331721-how-use-zed-f9p-base-station-trimble.html). Um es auch auf dem ntripcaster sichtbar zu machen, muss die `sourcetable.dat` angepasst werden. **Achtung: nur jeweils einen `str2str*.service` gleichzeitig laufen lassen!**
 
 # Anderer NTRIP Caster
 

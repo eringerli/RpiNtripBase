@@ -1,0 +1,3 @@
+CAS;www.euref-ip.net;2101;EUREF-IP;BKG;0;DEU;50.12;8.69;http://www.euref-ip.net/home
+CAS;example.com;2101;NtripInfoCaster;Beispielorganisation;0;CHE;47.02;8.36;0.0.0.0;0
+STR;STALL;Vierwaldstaettersee;RTCM 3.0;1005(1),1074(30),1084(1),1094(1),1230(1);2;GPS GLONASS GALILEO;RASPI;CHE;47.02;8.36;0;0;F9P UBLOX;B;N

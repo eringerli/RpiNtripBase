@@ -1,7 +1,13 @@
 #!/bin/bash
 
+mkdir -p /usr/local/ntripcaster/conf/ 
+
 cp ntripcaster.conf /usr/local/ntripcaster/
 cp ntripcaster.logrotate /usr/local/ntripcaster/
+if [[ -f "sourcetable.dat" ]]; then
+  cp sourcetable.dat /usr/local/ntripcaster/conf/
+fi
+
 cp m8t_base.cmd /usr/local/ntripcaster/
 cp rtcmadd1008.py /usr/local/bin/
 

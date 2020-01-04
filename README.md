@@ -24,6 +24,9 @@ normalerweise über USB, direkt an der seriellen Schnittstellen geht aber auch.
   dass wenn jemand die Basis auf so einem System aufbaut, er genug Erfahrung hat, um mit den Informationen hier zurechtzukommen. 
 
 ## Allgemein
+* **Jeder benutzt diese Software auf eigenes Risiko!** Alles unter der GPL v3, die explizit jede Haftung, Garantie und 
+  sogar die Eignung für einen Zweck als Solches ausschliesst. Das soll euch nicht demotivieren, diese Basis zu verwenden,
+  aber klar machen, dass die Verantwortung für das Installieren und den Betrieb bei jedem selbst liegt.
 * **Der Benutzer hat alles durchgelesen und versteht was er macht (oder macht nur das, was hier beschrieben ist...)**
 * **Ein Fork ist nicht nötig, das braucht nur Ressourcen auf github. Zum markieren und wiederfinden gibt es das kleine Sternchen.** 
   Einen eigenen Fork mit dem ursprünglichen Repository zu synchronisieren 
@@ -32,13 +35,23 @@ normalerweise über USB, direkt an der seriellen Schnittstellen geht aber auch.
   und das Updaten wird abgebrochen. Um das zu umgehen kann die betreffende Datei umbenannt werden (mit `mv ALT NEU`). Nach dem
   Updaten können die Dateien verglichen und je nach dem entweder gelöscht (mit `rm DATEI`) oder wieder zurückbennannt
   werden. Aufpassen, die Services (alles mit `.service` als Dateiendung) werden per Namen aktiviert/gestartet, also werden mit `./update.sh`
-  zwar die umbenannten Dateien zusätzlich auf das System kopiert, aber die vorherige Version überschrieben. 
+  zwar die umbenannten Dateien zusätzlich auf das System kopiert, aber die vorherige Version überschrieben.
+* Computer ist Computer, wenn es um Angriffe geht: wenn mal einen Rechner infiziert ist, ist es a) nur schlecht
+  erkennbar und b) die ideale Basis für weitere Infektionen oder anderes Ungemach wie Spam-Versand. Also bitte keine 
+  Passwörter à la `1234` oder diese öffentlich zugänglich machen. Auch ist es nicht so gut, mehr als den Port 2101 
+  freizugeben. Ein öffentlich zugänglicher SSH-Server ist ziemlich ideal für Angreifer, vor allem wenn noch die 
+  Standart-Passwörter gesetzt sind und er 24/7 läuft. Auch wenn Linux an sich ziemlich sicher ist, nützt das nichts, wenn
+  der Mensch dahinter kein Sicherheitsempfinden hat. 95% aller erfolgreichen Hacks sind dem Faktor Mensch zu verdanken, nicht
+  einer technischen Sicherheitslücke.
 
 # Bekannte Unzulänglichkeiten
 
 * Nur die Basis mit einem F9P und M8T implementiert;
 * Die grundsätzliche Struktur lässt alle Varianten von Empfängern zu, mangels Hardware kann ich aber nicht alle testen. Wenn jemand
   Änderungen macht, kann er mir einen Pull Request schicken, ich nehme die Commits gerne in das Repository auf.
+* Grundsätzlich habe ich diese Software für meine eigene Basis geschrieben, auf der sie nun seit Mai 2019 ohne Unterbrüche
+  und stabil läuft. Da ich nur mit zwei F9P als Basis und Rover arbeite, sind alle weitergehenden Features und Anleitungen
+  eine reine Gefälligkeit der Vollständigkeit willen.
 
 # Struktur, Funktionsweise
 
@@ -60,7 +73,8 @@ Es gibt grundsätzlich verschiedene Varianten, von gut nach schlecht geordnet:
    (https://cerea-forum.de/forum/index.php?thread/427-links-zu-messenger-gruppen/). Diese Lösung ist für diejenigen,
    welche keine Erfahrung mit Linux, systemd und ähnlichem haben und das Problem mit der Community zusammen lösen wollen.
 1. Ein "Issue" erröffnen. Dazu muss ebenfalls ein github-Account erstellt werden. **Sinnvoll**, und mit **genügend Informationen**
-   die gewünschten Änderungen beschreiben, am besten mit Code oder funktionierenden Beispielen. Diese Lösung bietet sich an,
+   die gewünschten Änderungen beschreiben, am besten mit Code oder funktionierenden Beispielen und vor allem
+   **log-Auszügen**. Diese Lösung bietet sich an,
    wenn man zwar weiss, was man machen will, aber sich nicht sicher ist, wie es zu implementieren ist. 
 1. Keine gute Idee ist es, mich persönlich anzuschreiben. Die Wahrscheinlichkeit ist sehr gross, dass jemand das gleiche Problem 
    schon einmal gehabt hat und weiter weiss. Ich kann es auch nicht alles testen, wenn ich die Hardware nicht habe, da ist es 

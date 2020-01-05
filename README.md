@@ -164,7 +164,7 @@ das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei
 ## `sourcetable.dat`
 Wenn eine `sourcetable.dat` verwendet werden soll (optional), dann muss zuerst die Datei `sourcetable.dat.dist` unbenannt werden:
 ```
-cp ntripcaster.service ntripcaster.service
+cp sourcetable.dat.dist sourcetable.dat 
 ```
 Dann werden die Werte angepasst, vor allem die Position muss geändert werden. Die vorgegebene Position ist mitten im Vierwaldstättersee in der Schweiz. Wenn zusätzliche RTCM-Daten übertragen werden, kann dies hier angegeben werden. Die fetten Teile sollten angepasst werden:
 

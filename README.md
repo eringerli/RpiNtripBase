@@ -13,16 +13,6 @@ normalerweise über USB, direkt an der seriellen Schnittstellen geht aber auch.
 
 # Voraussetzungen
 
-## Raspberry Pi
-* Der RPI ist mit Raspbian geflasht, alle Passwörter sind geändert und alle Netzwerke eingerichtet
-* Ein Zugriff mit `ssh` (oder Putty auf Windows) besteht (Datei `ssh` auf der Bootpartition anlegen)
-* Der F9P ist als Basis konfiguriert; es sollten nur RTCM-Nachrichten ausgegeben werden.
-
-## Andere Systeme
-* Raspberry Pi Klon: Image vom Hersteller verwenden, das sollte grundsätzlich funktionieren, solange eine ausreichend moderne Version verfügbar ist. 
-* Andere Linux-Systeme (wie Router, Desktop, NAS): sicherstellen, dass `systemd` verwendet wird und man `root`-Zugriff hat. Ich gehe davon aus, 
-  dass wenn jemand die Basis auf so einem System aufbaut, er genug Erfahrung hat, um mit den Informationen hier zurechtzukommen. 
-
 ## Allgemein
 * **Jeder benutzt diese Software auf eigenes Risiko!** Alles unter der GPL v3, die explizit jede Haftung, Garantie und 
   sogar die Eignung für einen Zweck als Solches ausschliesst. Das soll euch nicht demotivieren, diese Basis zu verwenden,
@@ -43,6 +33,19 @@ normalerweise über USB, direkt an der seriellen Schnittstellen geht aber auch.
   Standart-Passwörter gesetzt sind und er 24/7 läuft. Auch wenn Linux an sich ziemlich sicher ist, nützt das nichts, wenn
   der Mensch dahinter kein Sicherheitsempfinden hat. 95% aller erfolgreichen Hacks sind dem Faktor Mensch zu verdanken, nicht
   einer technischen Sicherheitslücke.
+  
+## Raspberry Pi
+* Der RPI ist mit Raspbian geflasht, alle Passwörter sind geändert und alle Netzwerke eingerichtet
+* Ein Zugriff mit `ssh` (oder Putty auf Windows) besteht (Datei `ssh` auf der Bootpartition anlegen)
+* Der F9P ist als Basis konfiguriert; es sollten nur RTCM-Nachrichten ausgegeben werden.
+
+## Andere Systeme
+* Raspberry Pi Klon: Image vom Hersteller verwenden, das sollte grundsätzlich funktionieren, solange eine ausreichend moderne Version verfügbar ist. 
+* Andere Linux-Systeme (wie Router, Desktop, NAS): sicherstellen, dass `systemd` verwendet wird und man `root`-Zugriff hat. Ich gehe davon aus, 
+  dass wenn jemand die Basis auf so einem System aufbaut, er genug Erfahrung hat, um mit den Informationen hier zurechtzukommen. 
+  
+## GPS-Empfänger
+Der GPS-Empfänger ist so konfiguriert, dass er nur die Daten schickt, die gebraucht werden. Das sind im Normalfall nur RTCM-3-Nachrichten mit 1Hz. Anleitungen dazu finden sich im Internet (zB. [cerea-forum.de](https://www.cerea-forum.de)); am einfachsten ist es, eine vorgefertigte Konfiguration aufzuspielen. Wenn der Empfänger mehr Daten liefert, kann es vorkommen, dass externe Caster den Zugang sperren.
 
 # Bekannte Unzulänglichkeiten
 
@@ -132,8 +135,7 @@ Wenn ein M8T angeschlossen wird, muss statt `str2str.service` `str2str-M8T.servi
 [Anderer NTRIP Caster](#anderer-ntrip-caster) schauen.
 
 Wenn der GPS-Empfänger über eine serielle Schnittstelle angeschlossen wurde (z.B. M8T mit TTL-Serial-zu-USB-Wandler), muss die Baudrate
-korrekt konfiguriert sein (zwei mal!). Wenn er direkt über USB verbunden ist, ist es egal (z.B. F9P über USB). Hier hilft ausprobieren:
-im u-center kann eine Text-Anzeige geöffnet werden (View -> Text Console), dann sieht man es sofort.
+korrekt konfiguriert sein (zwei mal!). Wenn er direkt über USB verbunden ist, ist es egal (z.B. F9P über USB). Hier hilft ausprobieren: den Empfänger an einen PC anschliessen, im u-center eine Verbindung mit einer Baudrate herstellen und eine Packet-Anzeige öffnen (View -> Packet Console). Im Fenster werden dann erkannte Packete angezeigt. Wenn keine erkannt werden aber Daten ankommen, eine andere Baudrate ausprobieren.
 
 Um die Basis erreichen zu können, muss auf dem Router eine Portweiterleitung auf den eingestellten
 Port des NTRIP-Casters und eine DynDNS-Adresse (oder ähnlich, gibt viele Anbieter) eingerichtet werden,
@@ -143,22 +145,25 @@ verwenden. Der Port 2102 erlaubt einen direkten Zugang zum GPS-Empfänger, diese
 # Konfiguration der Basis
 
 ## Allgemein
-Dateien werden am einfachsten mit dem Programm `nano` bearbeitet, dieses wird mit `nano DATEI` gestartet. Um die Datei zu speichern und `nano` zu beenden, wird in `nano` `Ctrl+X` gedrückt und die anschliessende Frage mit `Y` beantwortet um die Datei zu speichern.
+Dateien werden am einfachsten mit dem Programm `nano` bearbeitet, dieses wird mit `nano DATEI` gestartet. Um die Datei zu speichern und `nano` zu beenden, wird in `nano` `Ctrl+X` gedrückt und die anschliessende Frage mit `Y` beantwortet. Wenn die Dateien direkt im Terminal geändert werden, ist sichergestellt, dass sich keine systemspezifischen Fehler einschleichen wie falsche Zeilenenden, da sowohl Windows wie auch MacOS andere verwenden als Linux. Darum ist vom Kopieren von Dateien über Systemgrenzen (zB. mit WinSCP oder direkt auf die SD-Karte) hinaus abgeraten.
 
 Grundsätzlich ist es einfacher, Schritt für Schritt Sachen zu verändern und diese jeweils zu testen, als alles auf einmal zu 
 konfigurieren.  Wenn man bedenkt, dass dieses System dann ohne weitere Wartung lange Zeit von alleine läuft, sind diese paar 
-Minuten gut investiert. Wenn man sich total ins Abseits konfiguriert hat, kann auch mit einem erneuten Klonen in einem zweiten Ordner neu begonnen werden.
+Minuten gut investiert. Wenn man sich total ins Abseits konfiguriert hat, kann auch mit einem erneuten Klonen in einem zweiten Ordner neu begonnen werden. In diesem Fall keine Einstellungen kopieren sondern wiederum Schritt für Schritt jede Datei einzeln anpassen.
 
 Wenn neu eingelogt wird, muss zuerst in den Ordner gewechselt werden, wohin `RpiNtripBase` heruntergeladen wurde. Dies geschieht mit 
 ```
 cd RpiNtripBase
 ```
 
+## Übernehmen der Änderungen
+Wenn Dateien angepasst worden sind, **muss das Kommando `sudo ./update.sh` ausgeführt werden.** Dieses Kommando muss nach jeder zusammenhängenden Änderung ausgeführt werden und überschreibt die Einstellungsdateien auf dem System mit den geänderten. Damit ist es auch möglich, Änderungen _en bloc_ zu übernehmen, wenn zB. die Zugangsdaten in verschiedenen Dateien gleichzeitig angepasst werden.
+
 ## ntripcaster
 Die Konfiguration des NTRIP Casters wird in der Datei `ntripcaster.conf` gemacht. Standartmässig wird der
 Caster auf dem Port 2101 gestartet, der Mountpoint ist "STALL", der Benutzername und
 das Passwort je "gps". Wenn der Mountpoint verändert wird, muss er in der Datei 
-`str2str.servic` ebenfalls angepasst werden. **Achtung: das Passwort für NTRIP wird im Klartext (HTTP Basic Auth)
+`str2str.service` ebenfalls angepasst werden. **Achtung: das Passwort für NTRIP wird im Klartext (HTTP Basic Auth)
 über das Internet übertragen. Also nie eines wählen, das schon an anderen Orten verwendet wird, da es extrem einfach ist, dieses abzuhören!**
 
 ## `sourcetable.dat`
@@ -166,16 +171,13 @@ Wenn eine `sourcetable.dat` verwendet werden soll (optional), dann muss zuerst d
 ```
 cp sourcetable.dat.dist sourcetable.dat 
 ```
-Dann werden die Werte angepasst, vor allem die Position muss geändert werden. Die vorgegebene Position ist mitten im Vierwaldstättersee in der Schweiz. Wenn zusätzliche RTCM-Daten übertragen werden, kann dies hier angegeben werden. Die fetten Teile sollten angepasst werden:
+Dann werden die Werte angepasst, vor allem die Position muss geändert werden. Die vorgegebene Position ist mitten im Vierwaldstättersee in der Schweiz. Wenn zusätzliche RTCM-Daten übertragen werden, kann dies hier angegeben werden (hat aber keinen Einfluss auf den GPS-Empfänger!). Die fetten Teile sollten angepasst werden:
 
 > CAS;www.euref-ip.net;2101;EUREF-IP;BKG;0;DEU;50.12;8.69;http://www.euref-ip.net/home
 > CAS;**example.com**;2101;NtripInfoCaster;**Beispielorganisation**;0;**CHE;47.02;8.36**;0.0.0.0;0
 > STR;STALL;**Vierwaldstaettersee**;RTCM 3.0;1005(1),1074(30),1084(1),1094(1),1230(1);2;GPS GLONASS GALILEO;RASPI;**CHE;47.02;8.36**;0;0;F9P UBLOX;B;N
 
-In der ersten Zeile muss nichts geändert werden. In der zweiten `example.com` zum eigenen, öffentlichen DNS-Namen, `Beispielorganisation` zB. zum Hof, und natürlich das Land und die Position. In der dritten Zeile wird `Vierwaldstaettersee` zur nächsten Stadt, zusätzlich dazu das Land und die Position geändert. Die Position darf nicht zu genau sein, der Standart schreibt eine Genauigkeit von zwei Nachkommastellen vor. Besser nichts riskieren und ohne Umlaute und andere Sonderzeichen arbeiten.
-
-## Übernehmen der Änderungen
-Wenn alle Dateien angepasst worden sind, **muss das Kommando `sudo ./update.sh` ausgeführt werden.** Dieses Kommando muss nach jeder zusammenhängenden Änderung ausgeführt werden und überschreibt die Einstellungsdateien auf dem System mit den geänderten. Damit ist es möglich, Änderungen _en bloc_ zu übernehmen, wenn zB. die Zugangsdaten in verschiedenen Dateien gleichzeitig angepasst werden.
+In der ersten Zeile muss nichts geändert werden. In der zweiten `example.com` zum eigenen, öffentlichen DNS-Namen, `Beispielorganisation` zB. zum Hof, und natürlich das Land und die Position. In der dritten Zeile wird `Vierwaldstaettersee` zur nächsten Stadt, zusätzlich dazu das Land und die Position geändert. Die Position darf nicht zu genau sein, der Standart schreibt eine Genauigkeit von zwei Nachkommastellen vor. Besser nichts riskieren und ohne Umlaute und andere Sonderzeichen arbeiten. Weitere Details sind in der offiziellen [Beschreibung](https://github.com/roice/ntripcaster/blob/7f03bef97f53739302ed7bc72008f824f24cb924/ntripcaster0.1.5/conf/NtripSourcetable.doc?raw=true).
 
 ## Fortgeschrittene Verwendung
 Wenn eigene Dateien/Services erstellt werden, müssen diese nach `sudo ./update.sh` manuell neu gestartet werden. Die schon vorgegebenen werden in `./update.sh` automatisch neu gestartet, vorausgesetzt, sie sind schon gestartet. Falls man selbst Services neu starten will, führt man folgendes Kommando aus:

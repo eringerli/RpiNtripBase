@@ -20,4 +20,5 @@ systemctl try-restart str2str-M8T.service
 systemctl try-restart str2str-injectrtcm1008.service
 systemctl try-restart str2str-remoteCaster.service
 systemctl try-restart logrotate-ntripcaster.timer
-
+systemctl try-restart ntripserver.service
+systemctl try-restart ntripserver-remoteCaster.service

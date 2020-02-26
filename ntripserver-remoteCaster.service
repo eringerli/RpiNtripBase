@@ -1,0 +1,14 @@
+[Unit]
+Description=ntripserver
+After=network.target
+After=ntripcaster.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+ExecStart=/usr/local/bin/ntripserver -M 2 -H 127.0.0.1 -P 2102 -O 3 -n USER -c PASS -a HOST -p PORT -m /MOUNT
+
+[Install]
+WantedBy=multi-user.target
+

@@ -142,6 +142,10 @@ Port des NTRIP-Casters und eine DynDNS-Adresse (oder ähnlich, gibt viele Anbiet
 sodass ein Zugriff vom Rover übers Internet möglich wird. FritzBox-Besitzer können auch eine MyFritz-Addresse
 verwenden. Der Port 2102 erlaubt einen direkten Zugang zum GPS-Empfänger, diesen **nicht** öffentlich zugänglich machen.
 
+## NTRIP 2.0
+
+Falls NTRIP 2.0 verwendet werden soll, muss anstelle von `str2str.service` `ntripserver.service` gestartet und aktiviert werden. Die Beschreibung des Programms und der Parameter ist im Ordner `external/ntripserver` in der Datei `README`. Diese Datei kann mit dem Kommando `cat external/ntripserver/README` angezeigt werden. Analog zu den `str2str`-Varianten gibt es auch hier eine für einen externen Caster.
+
 # Konfiguration der Basis
 
 ## Allgemein

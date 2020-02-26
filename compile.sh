@@ -16,6 +16,12 @@ pushd external/rtklib-demo5/app/str2str/gcc/
 make
 
 mkdir -p /usr/local/bin
-cp str2str /usr/local/bin
+cp str2str /usr/local/bin/
+popd
+
+pushd external/ntripserver/
+make
+
+cp ntripserver /usr/local/bin/
 popd
 

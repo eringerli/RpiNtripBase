@@ -1,0 +1,14 @@
+[Unit]
+Description=ntripserver
+After=network.target
+After=ntripcaster.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+ExecStart=/usr/local/bin/ntripserver -M 2 -H 127.0.0.1 -P 2102 -O 3 -n gps -c gps -a 127.0.0.1 -p 2101 -m /STALL
+
+[Install]
+WantedBy=multi-user.target
+

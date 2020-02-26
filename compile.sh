@@ -19,7 +19,7 @@ mkdir -p /usr/local/bin
 cp str2str /usr/local/bin/
 popd
 
-pushd external/ntripserver/
+pushd external/rtcmserver/
 make
 
 cp ntripserver /usr/local/bin/

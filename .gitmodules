@@ -4,6 +4,6 @@
 [submodule "external/rtklib-demo5"]
 	path = external/rtklib-demo5
 	url = https://github.com/rtklibexplorer/RTKLIB.git
-[submodule "external/ntripserver"]
-	path = external/ntripserver
-	url = https://github.com/mwruschel/ntripserver.git
+[submodule "external/rtcmserver"]
+	path = external/rtcmserver
+	url = https://github.com/aortner/rtcmserver

@@ -104,7 +104,7 @@ Dann wird auf dem Pi per `ssh` (oder Putty)  eingelogt und das ganze System auf 
 ```
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get install git socat
+sudo apt-get install git socat nano
 ```
 
 Dieses Repository wird geklont:

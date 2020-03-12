@@ -130,6 +130,9 @@ sudo systemctl start logrotate-ntripcaster.timer
 sudo systemctl enable str2str.service
 sudo systemctl start str2str.service
 ```
+
+Starten (`sudo systemctl start ...`) bedeutet, das der Hintergrundprozess gestartet wird und seine Dienste bereitstellt. Aktivieren (`sudo systemctl enable ...`) bedeutet, dass der Service zukünftig beim Systemstart mitgestartet wird. Deaktivieren (`sudo systemctl disable ...`) und stoppen (`sudo systemctl stop ...`) hat den jeweils gegenteiligen Effekt. Mit `sudo systemctl status ...` kann der Status und die letzten paar Zeilen aus dem Log angezeigt werden. So ist ersichlich, ob der Service gerade läuft und/oder aktiviert ist und kann Hinweise auf eventuelle Konfigurationsfehler geben. Mit `sudo systemctl` kann eine Übersicht dargestellt werden.
+
 Wenn ein M8T angeschlossen wird, muss statt `str2str.service` `str2str-M8T.service` ausgeführt werden. Weiter muss die Position der Basis in der Datei
 `str2str-M8T.service` angepasst werden (siehe [Konfiguration](#konfiguration)). Wenn ein öffentlicher Caster verwendet wird, bitte unter dem Punkt
 [Anderer NTRIP Caster](#anderer-ntrip-caster) schauen.
@@ -144,7 +147,7 @@ verwenden. Der Port 2102 erlaubt einen direkten Zugang zum GPS-Empfänger, diese
 
 ## NTRIP 2.0
 
-Falls NTRIP 2.0 verwendet werden soll, muss anstelle von `str2str.service` `ntripserver.service` gestartet und aktiviert werden. Die Beschreibung des Programms und der Parameter ist im Ordner `external/ntripserver` in der Datei `README`. Diese Datei kann mit dem Kommando `cat external/ntripserver/README` angezeigt werden. Analog zu den `str2str`-Varianten gibt es auch hier eine für einen externen Caster.
+Falls NTRIP 2.0 verwendet werden soll, muss anstelle von `str2str.service` `ntripserver.service` gestartet und aktiviert werden. Die Beschreibung des Programms und der Parameter ist im Ordner `external/ntripserver` in der Datei `README`. Diese Datei kann mit dem Kommando `cat external/ntripserver/README` angezeigt werden. Analog zu den `str2str`-Varianten gibt es auch hier eine für einen externen Caster und die RTCM1008-Variante.
 
 # Konfiguration der Basis
 
@@ -268,7 +271,11 @@ nicht eingegeben werden.
 Wenn bestimmte Empfänger verwendet werden (z.B. Trimble), müssen leere RTCM-1008-Nachrichten in den Datenstrom eingefügt werden, falls
 diese nicht vom GPS-Empfänger selbst erstellt werden. Wenn dies gewünscht ist, muss anstatt von ```str2str.service```
 ```str2str-injectrtcm1008.service``` ausgeführt und aktiviert werden. Der Rest bleibt gleich. Nachzulesen unter diesem
-[Link](https://www.thecombineforum.com/forums/31-technology/331721-how-use-zed-f9p-base-station-trimble.html). Um es auch auf dem ntripcaster sichtbar zu machen, muss die `sourcetable.dat` angepasst werden. **Achtung: nur jeweils einen `str2str*.service` gleichzeitig laufen lassen!**
+[Link](https://www.thecombineforum.com/forums/31-technology/331721-how-use-zed-f9p-base-station-trimble.html). Je nach Empfänger kann/muss die `sourcetable.dat` angepasst werden.
+
+Für `ntripserver`-Benutzer gilt das gleiche, diese verwenden aber `ntripserver-injectrtcm1008.service`.
+
+**Achtung: nur jeweils einen `str2str*.service` oder `ntripserver*.service` gleichzeitig laufen lassen!**
 
 # Anderer NTRIP Caster
 

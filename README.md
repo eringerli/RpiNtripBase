@@ -147,7 +147,7 @@ verwenden. Der Port 2102 erlaubt einen direkten Zugang zum GPS-Empfänger, diese
 
 ## NTRIP 2.0
 
-Falls NTRIP 2.0 verwendet werden soll, muss anstelle von `str2str.service` `ntripserver.service` gestartet und aktiviert werden. Die Beschreibung des Programms und der Parameter ist im Ordner `external/ntripserver` in der Datei `README`. Diese Datei kann mit dem Kommando `cat external/ntripserver/README` angezeigt werden. Analog zu den `str2str`-Varianten gibt es auch hier eine für einen externen Caster und die RTCM1008-Variante.
+Falls NTRIP 2.0 verwendet werden soll, muss anstelle von `str2str.service` `ntripserver.service` gestartet und aktiviert werden. Die Beschreibung des Programms und der Parameter ist im Ordner `external/ntripserver` in der Datei `README`. Diese Datei kann mit dem Kommando `cat external/ntripserver/README` angezeigt werden. Analog zu den `str2str`-Varianten gibt es auch hier eine für einen externen Caster und die RTCM1008-Variante. Um den`ntripserver` zu konfigurieren, können direkt die `*.service`-Dateien geändert werden. Unbedingt die Anweisungen zum Übernehmen der Einstellungen weiter unten befolgen!
 
 # Konfiguration der Basis
 

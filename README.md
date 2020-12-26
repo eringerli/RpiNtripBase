@@ -3,6 +3,14 @@
 Dies ist eine einfach zu konfigurierende RTK-Basisstation für Linux. Verschiedene GPS-Empfänger können angeschlossen werden,
 normalerweise über USB, direkt an der seriellen Schnittstellen geht aber auch.
 
+# Attention
+**Please don't fork the repository, if you're not planning to do any changes to the source to send back as Pull Request. There is a button with a star on the page header, besides that is the button to watch for updates. Both help you keep track of the repositories you like.**
+
+Forking makes it extremely hard to keep track of the improvements upstream, where a simple clone is updated in seconds. There's no sense in running an out of date version.
+
+# Achtung
+**Bitte forkt das Repository nicht, wenn ihr nicht vorhabt, Änderungen daran zu machen, welche ihr mir als Pull Request wieder zurückschickt. Ein Fork aktuell zu halten, ist kompliziert und zeitraubend. Es gibt extra zwei Köpfe in der Kopfzeile, wo man das Repository merken und beobachten kann.**
+
 # Features
 * NTRIP Caster auf Port 2101
 * Proxy für die serielle Schnittstelle auf dem Port 2102; die Basis kann auch nach der 
